@@ -56,9 +56,27 @@
   <audio data-key="74" src="sounds/snare.wav"></audio>
   <audio data-key="75" src="sounds/tom.wav"></audio>
   <audio data-key="76" src="sounds/tink.wav"></audio>
-
+/* data-key allows the key pressed to trigger a data element, in this case audio along with the source event, in this case a keypress*/
 <script>
+  
+  function playSound(e){
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    if (!audio)return; //stop the function from running all together if the keypressed isnt associated with any audio.
+    audio.currentTime = 0; //rewinds time to start so that it allows audios to be played one over an other in quick succession. if not done it waits for each audio file to end!
+    audio.play();
+    key.classList.add('playing'); //adds class playing to the key so that it changes its animation
 
+  }
+
+  function removeTransition(e){
+    if (e.propertyName !=='transform')return; //skip it if its not a transform
+    this.classList.remove('playing'); //this is the element the addEventListener took, so its the key element
+  }
+
+  const keys = document.querySelectorAll('.key');
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  window.addEventListener('keydown', playSound);
 </script>
 
 
