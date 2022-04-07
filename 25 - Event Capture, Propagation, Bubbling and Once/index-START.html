@@ -42,6 +42,21 @@
 
 <button></button>
 <script>
+  const divs = document.querySelectorAll('div');
+
+  function logText(e){
+    console.log(this.classList.value);
+    e.stopPropagation(); //stop bubbling!  
+    //bubbling means that events that are nested are all "clicked" uppwards,
+    // in this case by adding the stop propagation and that the browser
+    //reads from the top, so if we click three its gonna console.log "one" and stop.
+  }
+
+  divs.forEach(div => div.addEventListener('click',logText, {
+    capture:true, // useful for activating
+    once:true // allows an event to only be triggered once, its useful
+    //  in store checkouts
+  }));
 
 </script>
 </body>
